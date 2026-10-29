@@ -63,6 +63,13 @@ Abra http://localhost:3000.
 3. Preencha `ML_CLIENT_ID`, `ML_CLIENT_SECRET` e `ML_REDIRECT_URI` no `.env`.
 4. Para testar sem vender de verdade, crie [usuários de teste](https://developers.mercadolivre.com.br/pt_br/realizacao-de-testes).
 
+## Deploy gratuito (Vercel + Neon)
+
+1. Em [vercel.com](https://vercel.com), entre com o GitHub e importe este repositório.
+2. No projeto, abra **Storage** → **Create Database** → **Neon** (Postgres gratuito). A Vercel cria a variável `DATABASE_URL` sozinha.
+3. Faça um novo deploy (**Deployments** → **Redeploy**). O `build` aplica as migrações e cria as tabelas.
+4. Para conectar o Mercado Livre, adicione `ML_CLIENT_ID`, `ML_CLIENT_SECRET` e `ML_REDIRECT_URI` em **Settings** → **Environment Variables**.
+
 ## Deploy no Railway
 
 1. Crie um projeto com um serviço **PostgreSQL** e um serviço a partir deste repositório.
