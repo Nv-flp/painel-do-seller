@@ -2,6 +2,8 @@
 
 Painel para quem vende no Mercado Livre: faturamento, metas e alertas da loja em um só lugar, com os dados lidos pela API oficial do Mercado Livre.
 
+**🔗 Ver online:** [painell-do-seller.vercel.app](https://painell-do-seller.vercel.app/) (abre com a conta demo)
+
 ![Painel do Seller](docs/desktop.png)
 
 ## O que ele faz
