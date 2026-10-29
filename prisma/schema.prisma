@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Uma conta de vendedor. A conta "demo" usa dados fictícios;
+// as demais são contas reais do Mercado Livre conectadas via OAuth.
+model Account {
+  id             String    @id
+  nickname       String
+  isDemo         Boolean   @default(false)
+  sessionToken   String?   @unique // valor aleatório guardado no cookie do navegador
+  accessToken    String?
+  refreshToken   String?
+  tokenExpiresAt DateTime?
+  lastSyncAt     DateTime?
+  createdAt      DateTime  @default(now())
+  orders         Order[]
+  goals          Goal[]
+}
+
+model Order {
+  id             String      @id
+  accountId      String
+  account        Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  status         String // paid, cancelled, ...
+  totalAmount    Float
+  createdAt      DateTime
+  buyerNickname  String?
+  shippingStatus String? // pending, ready_to_ship, shipped, delivered, ...
+  handlingLimit  DateTime? // prazo para despachar
+  hasClaim       Boolean     @default(false)
+  items          OrderItem[]
+
+  @@index([accountId, createdAt])
+}
+
+model OrderItem {
+  id        Int    @id @default(autoincrement())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  itemId    String
+  title     String
+  quantity  Int
+  unitPrice Float
+}
+
+// Meta de faturamento por mês ("2026-10")
+model Goal {
+  id        Int     @id @default(autoincrement())
+  accountId String
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  month     String
+  amount    Float
+
+  @@unique([accountId, month])
+}
